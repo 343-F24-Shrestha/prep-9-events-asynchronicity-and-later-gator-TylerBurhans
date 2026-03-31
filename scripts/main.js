@@ -25,7 +25,14 @@ input.addEventListener("keydown", (ev) => {
   console.debug("keydown", ev.key);
   if (ev.key === "Enter") {
     console.log("Enter detected. current value:", input.value);
-    // TODO use the provided later() function here
+	
+	//later(input.toLowerCase, function(result) {
+	//	setOutput(result);
+	//});
+	
+	options((matches) => {
+		makeOptions(matches);
+	}, input.value.toLowerCase());
   }
 });
 
@@ -39,7 +46,7 @@ input.addEventListener("keydown", (ev) => {
 //
 const setOutput = (result) => {
   console.log("setOutput", result);
-  // TODO see comments just above 🙄
+  output.textContent = result.valediction + ", " + result.target;
 };
 
 // for Part 2
@@ -48,3 +55,23 @@ const setOutput = (result) => {
 // (if the user hasn't entered anything, simply exclude the query argument in your invocation to options).
 // add each of the resulting target options as buttons in list items in the ul.
 // when any of these buttons are clicked, user the later() function to request the corresponding valediction and update the output element as in Part 1
+
+const makeOptions = (strings) => {
+  const container = document.getElementById("available-targets");
+  container.innerHTML = "";
+
+  strings.forEach(s => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.textContent = s;
+
+    btn.addEventListener("click", () => {
+      later(s.toLowerCase(), (result) => {
+        setOutput(result);
+      });
+    });
+
+    li.appendChild(btn);
+    container.appendChild(li);
+  });
+};
