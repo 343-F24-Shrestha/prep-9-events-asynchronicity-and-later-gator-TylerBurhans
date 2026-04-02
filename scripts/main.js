@@ -20,19 +20,27 @@
 const input = document.getElementById("target");
 const output = document.querySelector("output");
 
+
+input.addEventListener("input", () => {
+  const query = input.value.trim();
+  if (query === "") {
+    options(makeOptions);
+  } else {
+    options(makeOptions, query);
+  }
+});
+
+
+
 // when the input has focus and enter is pressed, invoke the function named later
-input.addEventListener("keydown", (ev) => {
+input.addEventListener("input", (ev) => {
   console.debug("keydown", ev.key);
   if (ev.key === "Enter") {
     console.log("Enter detected. current value:", input.value);
 	
-	//later(input.toLowerCase, function(result) {
-	//	setOutput(result);
-	//});
-	
-	options((matches) => {
-		makeOptions(matches);
-	}, input.value.toLowerCase());
+	later(input.toLowerCase, function(result) {
+		setOutput(result);
+	});
   }
 });
 
